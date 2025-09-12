@@ -1,19 +1,35 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.20;
 
-contract Counter {
-  uint public x;
+contract WalletWhitelist {
+    mapping(address => bool) private whitelist;
+    event AddressAdded(address addedBy, address addedOf);
+    event AddressRemoved(address removedBy, address removedOf);
+    address public admin;
 
-  event Increment(uint by);
+    constructor() {
+        admin = msg.sender;
+    }
+    /* modifier to restrict admin-only function 
+     this modifier will be used in the functions 
+     addToWhitelist and removeFromWhitelist 
+  */
+    modifier onlyAdmin() {
+        require(msg.sender == admin, "not admin");
+        _;
+    }
 
-  function inc() public {
-    x++;
-    emit Increment(1);
-  }
+    /* function addToWhitelist and function removeFromWhitelist 
+  to write to the whitelist  */
+    function addToWhitelist(address addressToAdd) external onlyAdmin {
+        require(addressToAdd != address(0), "address 0 not allowed");
+        whitelist[msg.sender] = true;
+        emit AddressAdded(admin, addressToAdd);
+    }
 
-  function incBy(uint by) public {
-    require(by > 0, "incBy: increment should be positive");
-    x += by;
-    emit Increment(by);
-  }
+    function removeFromWhitelist(address addressToRemove) external onlyAdmin {
+        require(addressToRemove != address(0), "address 0 not allowed");
+        whitelist[msg.sender] = false;
+        emit AddressRemoved(admin, addressToRemove);
+    }
 }
