@@ -23,13 +23,27 @@ contract WalletWhitelist {
   to write to the whitelist  */
     function addToWhitelist(address addressToAdd) external onlyAdmin {
         require(addressToAdd != address(0), "address 0 not allowed");
+        require(!whitelist[addressToAdd], "Address already whitelisted");
         whitelist[msg.sender] = true;
         emit AddressAdded(admin, addressToAdd);
     }
 
     function removeFromWhitelist(address addressToRemove) external onlyAdmin {
         require(addressToRemove != address(0), "address 0 not allowed");
+        require(
+            whitelist[addressToRemove],
+            "Address is already not whitelisted"
+        );
         whitelist[msg.sender] = false;
         emit AddressRemoved(admin, addressToRemove);
+    }
+
+    /* read only function to return
+     boolean if the address is whitelisted
+     or not */
+    function isWhitelisted(
+        address addressToCheck
+    ) external view returns (bool) {
+        return whitelist[addressToCheck];
     }
 }
