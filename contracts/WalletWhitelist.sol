@@ -7,8 +7,17 @@ contract WalletWhitelist {
     event AddressRemoved(address removedBy, address removedOf);
     address public admin;
 
-    constructor() {
+    constructor(address[] memory initialAddresses) {
         admin = msg.sender;
+        for (uint i = 0; i < 5; i++) {
+            require(initialAddresses[i] != address(0), "address 0 not allowed");
+            require(
+                !whitelist[initialAddresses[i]],
+                "Already Added address cannot be used again"
+            );
+            whitelist[initialAddresses[i]] = true;
+            emit AddressAdded(admin, initialAddresses[i]);
+        }
     }
     /* modifier to restrict admin-only function 
      this modifier will be used in the functions 
