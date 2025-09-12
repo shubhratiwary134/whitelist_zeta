@@ -9,7 +9,7 @@ contract WalletWhitelist {
 
     constructor(address[] memory initialAddresses) {
         admin = msg.sender;
-        for (uint i = 0; i < 5; i++) {
+        for (uint i = 0; i < initialAddresses.length; i++) {
             require(initialAddresses[i] != address(0), "address 0 not allowed");
             require(
                 !whitelist[initialAddresses[i]],
