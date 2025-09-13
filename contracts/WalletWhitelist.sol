@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 contract WalletWhitelist {
@@ -37,7 +37,7 @@ contract WalletWhitelist {
     function addToWhitelist(address addressToAdd) external onlyAdmin {
         require(addressToAdd != address(0), "address 0 not allowed");
         require(!whitelist[addressToAdd], "Address already whitelisted");
-        whitelist[msg.sender] = true;
+        whitelist[addressToAdd] = true;
         emit AddressAdded(admin, addressToAdd);
     }
 
@@ -47,7 +47,7 @@ contract WalletWhitelist {
             whitelist[addressToRemove],
             "Address is already not whitelisted"
         );
-        whitelist[msg.sender] = false;
+        whitelist[addressToRemove] = false;
         emit AddressRemoved(admin, addressToRemove);
     }
 
