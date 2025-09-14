@@ -36,6 +36,13 @@ const config: HardhatUserConfig = {
       url: configVariable("SEPOLIA_RPC_URL"),
       accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
     },
+    zetaTestnet: {
+      type: "http",
+      chainType: "generic",
+      url: configVariable("ZETA_TESTNET_RPC_URL"),
+      chainId: 7001,
+      accounts: [configVariable("PRIVATE_KEY")],
+    },
   },
 };
 
