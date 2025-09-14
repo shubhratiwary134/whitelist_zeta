@@ -20,7 +20,7 @@ contract WalletWhiteListTest is Test {
         ];
     }
 
-    function testConstructor() public {
+    function test_Constructor() public {
         for (uint i = 0; i < initialAddresses.length; i++) {
             vm.expectEmit(true, true, false, true);
             emit WalletWhitelist.AddressAdded(admin, initialAddresses[i]);
@@ -31,5 +31,44 @@ contract WalletWhiteListTest is Test {
         for (uint i = 0; i < initialAddresses.length; i++) {
             assertTrue(wallet.isWhitelisted(initialAddresses[i]));
         }
+    }
+
+    function test_AddToWhiteList_Success() public {
+        wallet = new WalletWhitelist(initialAddresses);
+
+        address newAddress = address(0x10);
+
+        vm.expectEmit(true, true, false, true);
+        emit WalletWhitelist.AddressAdded(admin, newAddress);
+
+        wallet.addToWhitelist(newAddress);
+
+        assertTrue(wallet.isWhitelisted(newAddress));
+    }
+
+    function test_AddToWhitelist_failIfNotAdmin() public {
+        wallet = new WalletWhitelist(initialAddresses);
+
+        address newAddress = address(0x11);
+
+        vm.prank(address(0x999));
+        vm.expectRevert("not admin");
+        wallet.addToWhitelist(newAddress);
+    }
+
+    function test_AddToWhitelist_failIfAddressIsZero() public {
+        wallet = new WalletWhitelist(initialAddresses);
+
+        vm.expectRevert("address 0 not allowed");
+        wallet.addToWhitelist(address(0));
+    }
+
+    function test_AddToWhitelist_failIfAlreadyWhitelisted() public {
+        wallet = new WalletWhitelist(initialAddresses);
+
+        address alreadyWhitelisted = initialAddresses[0];
+
+        vm.expectRevert("Address already whitelisted");
+        wallet.addToWhitelist(alreadyWhitelisted);
     }
 }
