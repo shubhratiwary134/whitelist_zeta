@@ -19,4 +19,17 @@ contract WalletWhiteListTest is Test {
             address(0x5)
         ];
     }
+
+    function constructorTest() public {
+        for (uint i = 0; i < initialAddresses.length; i++) {
+            vm.expectEmit(true, true, false, true);
+            emit WalletWhitelist.AddressAdded(admin, initialAddresses[i]);
+        }
+        wallet = new WalletWhitelist(initialAddresses);
+        assertEq(wallet.admin(), admin);
+
+        for (uint i = 0; i < initialAddresses.length; i++) {
+            assertTrue(wallet.isWhitelisted(initialAddresses[i]));
+        }
+    }
 }
