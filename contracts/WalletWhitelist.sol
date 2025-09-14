@@ -7,7 +7,7 @@ contract WalletWhitelist {
     event AddressRemoved(address removedBy, address removedOf);
     address public admin;
 
-    constructor(address[] memory initialAddresses) {
+    constructor(address[5] memory initialAddresses) {
         admin = msg.sender;
         require(
             initialAddresses.length == 5,

@@ -7,7 +7,7 @@ import "../contracts/WalletWhitelist.sol";
 contract WalletWhiteListTest is Test {
     WalletWhitelist wallet;
     address admin;
-    address[] initialAddresses;
+    address[5] initialAddresses;
 
     function setUp() public {
         admin = address(this);
@@ -20,7 +20,7 @@ contract WalletWhiteListTest is Test {
         ];
     }
 
-    function constructorTest() public {
+    function testConstructor() public {
         for (uint i = 0; i < initialAddresses.length; i++) {
             vm.expectEmit(true, true, false, true);
             emit WalletWhitelist.AddressAdded(admin, initialAddresses[i]);
