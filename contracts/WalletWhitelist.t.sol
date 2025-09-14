@@ -71,4 +71,43 @@ contract WalletWhiteListTest is Test {
         vm.expectRevert("Address already whitelisted");
         wallet.addToWhitelist(alreadyWhitelisted);
     }
+
+    function test_RemoveFromWhitelist_Success() public {
+        wallet = new WalletWhitelist(initialAddresses);
+
+        address newAddress = initialAddresses[0];
+
+        vm.expectEmit(true, true, false, true);
+        emit WalletWhitelist.AddressRemoved(admin, newAddress);
+
+        wallet.removeFromWhitelist(newAddress);
+
+        assertFalse(wallet.isWhitelisted(newAddress));
+    }
+
+    function test_RemoveFromWhitelist_failIfNotAdmin() public {
+        wallet = new WalletWhitelist(initialAddresses);
+
+        address target = initialAddresses[1];
+
+        vm.prank(address(0x999));
+        vm.expectRevert("not admin");
+        wallet.removeFromWhitelist(target);
+    }
+
+    function test_RemoveFromWhitelist_failIfAddressIsZero() public {
+        wallet = new WalletWhitelist(initialAddresses);
+
+        vm.expectRevert("address 0 not allowed");
+        wallet.removeFromWhitelist(address(0));
+    }
+
+    function test_RemoveFromWhitelist_failIfNotWhitelisted() public {
+        wallet = new WalletWhitelist(initialAddresses);
+
+        address notWhitelisted = address(0x123);
+
+        vm.expectRevert("Address is already not whitelisted");
+        wallet.removeFromWhitelist(notWhitelisted);
+    }
 }
