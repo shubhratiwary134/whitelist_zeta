@@ -110,4 +110,12 @@ contract WalletWhiteListTest is Test {
         vm.expectRevert("Address is already not whitelisted");
         wallet.removeFromWhitelist(notWhitelisted);
     }
+
+    function testIsWhitelisted() public {
+        wallet = new WalletWhitelist(initialAddresses);
+
+        assertTrue(wallet.isWhitelisted(initialAddresses[0]));
+
+        assertFalse(wallet.isWhitelisted(address(0x999)));
+    }
 }
