@@ -47,7 +47,7 @@ walletWhitelist.addToWhitelist(0x123...);
 walletWhitelist.removeFromWhitelist(0x123...);
 ```
 
-Security Considerations
+## Security Considerations
 
 1) Only the admin can add/remove addresses.
 
@@ -55,7 +55,7 @@ Security Considerations
 
 3) Events provide off-chain transparency for all whitelist changes.
 
-Tests
+## Tests
 
 1) Fully tested using Hardhat with coverage for:
 
@@ -67,6 +67,6 @@ Tests
 
 5) Event emission verification
 
-License
+## License
 
 This project is licensed under the MIT License.
