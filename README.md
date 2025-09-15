@@ -57,15 +57,15 @@ Security Considerations
 
 Tests
 
-Fully tested using Hardhat with coverage for:
+1) Fully tested using Hardhat with coverage for:
 
-Admin-only access enforcement
+2) Admin-only access enforcement
 
-Adding valid/invalid addresses
+3) Adding valid/invalid addresses
 
-Removing existing/non-existing addresses
+4) Removing existing/non-existing addresses
 
-Event emission verification
+5) Event emission verification
 
 License
 
