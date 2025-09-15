@@ -28,13 +28,6 @@ The `WalletWhitelist` smart contract allows an admin to manage a list of whiteli
   - `AddressAdded(address indexed addedAddress)` – emitted when an address is added.  
   - `AddressRemoved(address indexed removedAddress)` – emitted when an address is removed.
 
-## Contract Functions
-
-| Function | Visibility | Description |
-|----------|------------|-------------|
-| `addToWhitelist(address _wallet)` | Admin only | Adds a wallet to the whitelist. Fails if the address is zero or already whitelisted. Emits `AddressAdded`. |
-| `removeFromWhitelist(address _wallet)` | Admin only | Removes a wallet from the whitelist. Fails if the address is not whitelisted. Emits `AddressRemoved`. |
-| `isWhitelisted(address _wallet)` | Public view | Returns `true` if the wallet is whitelisted, otherwise `false`. |
 
 ## Deployment
 
@@ -46,3 +39,34 @@ The `WalletWhitelist` smart contract allows an admin to manage a list of whiteli
 ```solidity
 // Check if an address is whitelisted
 bool whitelisted = walletWhitelist.isWhitelisted(0x123...);
+
+// Admin adds a new wallet to the whitelist
+walletWhitelist.addToWhitelist(0x123...);
+
+// Admin removes a wallet from the whitelist
+walletWhitelist.removeFromWhitelist(0x123...);
+```
+
+Security Considerations
+
+1) Only the admin can add/remove addresses.
+
+2) Zero-address and duplicate address checks prevent common errors.
+
+3) Events provide off-chain transparency for all whitelist changes.
+
+Tests
+
+Fully tested using Hardhat with coverage for:
+
+Admin-only access enforcement
+
+Adding valid/invalid addresses
+
+Removing existing/non-existing addresses
+
+Event emission verification
+
+License
+
+This project is licensed under the MIT License.
