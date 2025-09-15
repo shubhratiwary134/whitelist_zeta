@@ -1,6 +1,9 @@
 import type { HardhatUserConfig } from "hardhat/config";
 import hardhatToolboxMochaEthersPlugin from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
+import "@nomicfoundation/hardhat-verify";
 import { configVariable } from "hardhat/config";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const config: HardhatUserConfig = {
   plugins: [hardhatToolboxMochaEthersPlugin],
@@ -41,6 +44,11 @@ const config: HardhatUserConfig = {
       url: configVariable("ZETA_TESTNET_RPC_URL"),
       chainId: 7001,
       accounts: [configVariable("PRIVATE_KEY")],
+    },
+  },
+  verify: {
+    blockscout: {
+      enabled: true,
     },
   },
 };
